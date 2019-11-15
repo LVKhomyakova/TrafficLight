@@ -85,7 +85,7 @@ namespace TrafficLightTests
         [Test]
         public void Test_RunTrafficLight()
         {
-
+            mock.Setup(b => b.GetPower()).Returns(100);
             _trafficLight = new TrafficLight(mock.Object, controller);
 
             Thread myThread = new Thread(new ThreadStart(() =>
