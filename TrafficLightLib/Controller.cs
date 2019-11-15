@@ -8,13 +8,10 @@ using System.Threading;
 
 namespace TrafficLightLib
 {
-    public class Сontroller
+    public class Сontroller : IController
     {
-        public Dictionary<string, List<Command>> Modes { get; set; }
-        public TrafficLight TrafficLight { get; }
-        public Сontroller(TrafficLight trafficLight)
+        public Сontroller()
         {
-            TrafficLight = trafficLight;
             Modes = new Dictionary<string, List<Command>>()
             {
                 {"Red", new List<Command>()
@@ -25,13 +22,23 @@ namespace TrafficLightLib
                 }
             };
         }
-
+        public Dictionary<string, List<Command>> Modes { get;}
+        /// <summary>
+        /// Добавить команду в определенный режим
+        /// </summary>
+        /// <param name="name">Название режима</param>
+        /// <param name="command">Добавляема команда</param>
         public void AddCommand(string name, Command command)
         {
             if (!Modes.ContainsKey(name))
                 Modes.Add(name,new List<Command>());
             Modes[name].Add(command);
         }
+        /// <summary>
+        /// Удалить команду из режима
+        /// </summary>
+        /// <param name="name">Название режима</param>
+        /// <param name="index">Индекс в списке команд, для удаления</param>
         public void DeleteCommand(string name, int index)
         {
             if (Modes.ContainsKey(name))
@@ -39,33 +46,23 @@ namespace TrafficLightLib
             if (Modes[name].Count > 0)
                 Modes[name].RemoveAt(index);
         }
-
+        /// <summary>
+        /// Добавить режим
+        /// </summary>
+        /// <param name="name">Название режима</param>
+        /// <param name="commands">Список команд для добавления</param>
         public void AddMode(string name, List<Command> commands)
         {
             if (!Modes.ContainsKey(name))
                 Modes.Add(name, commands);
         }
-
+        /// <summary>
+        /// Удалить режим, со всеми командами в нем
+        /// </summary>
+        /// <param name="name">Название режима для удаления</param>
         public void DeleteMode(string name)
         {
             Modes.Remove(name);
-        }
-
-        public void RunTrafficLight(string nameMode)
-        {
-            foreach (var command in Modes[nameMode])
-            {
-                var currentLight = TrafficLight.Lights
-                    .First(l => l.Color == command.GetColor());
-                if (command.GetAction() == LightAction.On)
-                    currentLight.On();
-                else
-                    currentLight.Off();
-                int actionTime = command.GetActionTime();
-                Thread.Sleep(actionTime);
-
-               // Timer timer = new Timer((obj)=> { });
-            }
         }
     }
 }

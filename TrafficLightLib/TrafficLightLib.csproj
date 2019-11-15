@@ -46,6 +46,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="IBattery.cs" />
+    <Compile Include="IController.cs" />
     <Compile Include="Light.cs" />
     <Compile Include="TrafficLight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
